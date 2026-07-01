@@ -1,0 +1,3 @@
+[submodule "NexusCore"]
+	path = NexusCore
+	url = git@github.com:Massive-Cybernetics/NexusCore.git
