@@ -1,0 +1,47 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Run SailPalServer (Simple)",
+			"type": "lldb",
+			"request": "launch",
+			"program": "${input:sailPalLaunchTargetPath}",
+			"cwd": "${workspaceFolder}",
+			"args": [
+				"--storage", "/tmp/sailpal-storage.db"
+			],
+			"stopOnEntry": false,
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "Run SailPalServer",
+			"type": "lldb",
+			"request": "launch",
+			"program": "${input:sailPalLaunchTargetPath}",
+			"cwd": "${workspaceFolder}",
+			"args": [
+				"--host", "0.0.0.0",
+				"--port", "7777",
+				"--password", "owner",
+				"--storage", "/Users/zen/Library/Application Support/Massive Cybernetics/SailPal/storage.db",
+				"--tls-certificate", "/Users/zen/Library/Application Support/Massive Cybernetics/SailPal/tls_certificate.pem",
+				"--tls-private-key", "/Users/zen/Library/Application Support/Massive Cybernetics/SailPal/tls_private_key.pem"
+			],
+			"serverReadyAction": {
+				"pattern": "HTTPS server was started successfully.",
+				"uriFormat": "https://127.0.0.1:7777/#",
+				"action": "openExternally"
+			}
+		}
+	],
+	"inputs": [
+		{
+			"id": "sailPalLaunchTargetPath",
+			"type": "command",
+			"command": "cmake.launchTargetPath",
+			"args": {
+				"targetName": "SailPalServer"
+			}
+		}
+	]
+}

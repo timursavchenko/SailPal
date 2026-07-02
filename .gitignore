@@ -1,0 +1,6 @@
+*.txt.user
+/Assets
+_build
+._*
+/out
+/_out

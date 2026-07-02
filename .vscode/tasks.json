@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build SailPalServer",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"_build/macOS/x86_64/Debug",
+				"--target",
+				"SailPalServer"
+			],
+			"isBackground": false
+		}
+	]
+}

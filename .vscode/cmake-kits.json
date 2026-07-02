@@ -1,0 +1,36 @@
+[
+  {
+    "name": "CDK Qt 6.9.2",
+    "isTrusted": true,
+    "preferredGenerator": {
+      "name": "Ninja"
+    },
+    "cmakeSettings": {
+      "QT_QML_GENERATE_QMLLS_INI": "ON",
+      "CMAKE_CXX_FLAGS_DEBUG_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
+      "CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG"
+    },
+    "toolchainFile": "/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/lib/cmake/Qt6/qt.toolchain.cmake",
+    "environmentVariables": {
+      "VSCODE_QT_QTPATHS_EXE": "/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/bin/qtpaths",
+      "PATH": "/Users/zen/Projects/CDK/targets/macOS/x86_64/usr:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/doc:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/include:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/lib:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/libexec:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/bin:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/tests:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/plugins:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/qml:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/translations:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/examples:${env:PATH}"
+    }
+  },
+  {
+    "name": "CDK Qt 6.9.2",
+    "isTrusted": true,
+    "preferredGenerator": {
+      "name": "Ninja"
+    },
+    "cmakeSettings": {
+      "QT_QML_GENERATE_QMLLS_INI": "ON",
+      "CMAKE_CXX_FLAGS_DEBUG_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
+      "CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG"
+    },
+    "toolchainFile": "/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/lib/cmake/Qt6/qt.toolchain.cmake",
+    "environmentVariables": {
+      "VSCODE_QT_QTPATHS_EXE": "/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/bin/qtpaths",
+      "PATH": "/Users/zen/Projects/CDK/targets/macOS/x86_64/usr:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/doc:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/include:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/lib:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/libexec:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/bin:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/tests:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/plugins:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/qml:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/translations:/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/examples:x86_64:${env:PATH}"
+    }
+  }
+]

@@ -1,0 +1,157 @@
+{
+
+	// Qt settings
+	"qt-core.additionalQtPaths": [
+		{
+			"name": "CDK Qt 6.9.2",
+			"path": "/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/bin/qtpaths"
+		}
+	],
+	"qt-qml.qmlls.additionalImportPaths": [
+		"/Users/zen/Projects/CDK/targets/macOS/x86_64/usr/qml"
+	],
+	"qt-qml.qmlls.useQmlImportPathEnvVar": true,
+	"qt-qml.qmlls.useNoCMakeCalls": true,
+	"qt-qml.qmlls.verboseOutput": true,
+	"qt-qml.qmlls.enabled": true,
+
+	// CMake settings
+	"cmake.buildBeforeRun": true,
+	"cmake.configureOnEdit": false,
+	"cmake.configureOnOpen": false,
+
+	// CodeLLDB: bypass xcrun-based debugserver discovery.
+	"lldb.server": "/Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/Resources/debugserver",
+
+	// Показывать пробелы/табы/переносы
+	"editor.renderWhitespace": "all",
+
+	// Show control characters (e.g., \u200B, BOM)
+	"editor.renderControlCharacters": true,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"editor.tabSize": 4,
+	"editor.formatOnSave": false,
+
+	// Hide some files/folders
+	"files.exclude": {
+		"**/_build": true,
+		"**/.DS_Store": true,
+		"**/.gitignore": true,
+		"**/.gitmodules": true
+	},
+
+	// Ignore some files for spell checking
+	"cSpell.ignorePaths": [
+		"package-lock.json",
+		"node_modules",
+		"vscode-extension",
+		".git/{info,lfs,logs,refs,objects}/**",
+		".git/{index,*refs,*HEAD}",
+		".vscode",
+		".vscode-insiders",
+		"*/translations.xml"
+	],
+
+	// File associations
+	"files.associations": {
+		"algorithm": "cpp",
+		"cmath": "cpp",
+		"complex": "cpp",
+		"new": "cpp",
+		"hash_map": "cpp",
+		"strstream": "cpp",
+		"bitset": "cpp",
+		"deque": "cpp",
+		"functional": "cpp",
+		"iterator": "cpp",
+		"memory": "cpp",
+		"numeric": "cpp",
+		"list": "cpp",
+		"map": "cpp",
+		"queue": "cpp",
+		"set": "cpp",
+		"stack": "cpp",
+		"utility": "cpp",
+		"vector": "cpp",
+		"typeindex": "cpp",
+		"typeinfo": "cpp",
+		"chrono": "cpp",
+		"text_encoding": "cpp",
+		"qtwebsockets": "c",
+		"__bit_reference": "cpp",
+		"__split_buffer": "cpp",
+		"__tree": "cpp",
+		"__verbose_abort": "cpp",
+		"array": "cpp",
+		"cctype": "cpp",
+		"clocale": "cpp",
+		"cstddef": "cpp",
+		"cstdint": "cpp",
+		"cstdlib": "cpp",
+		"cstring": "cpp",
+		"ctime": "cpp",
+		"iosfwd": "cpp",
+		"limits": "cpp",
+		"locale": "cpp",
+		"ratio": "cpp",
+		"stdexcept": "cpp",
+		"string": "cpp",
+		"string_view": "cpp",
+		"unordered_map": "cpp",
+		"__hash_table": "cpp",
+		"__locale": "cpp",
+		"__log_hardening_failure": "cpp",
+		"__node_handle": "cpp",
+		"__verbose_trap": "cpp",
+		"any": "cpp",
+		"cfenv": "cpp",
+		"charconv": "cpp",
+		"codecvt": "cpp",
+		"condition_variable": "cpp",
+		"csetjmp": "cpp",
+		"csignal": "cpp",
+		"cstdarg": "cpp",
+		"cstdio": "cpp",
+		"cwchar": "cpp",
+		"cwctype": "cpp",
+		"execution": "cpp",
+		"forward_list": "cpp",
+		"fstream": "cpp",
+		"future": "cpp",
+		"initializer_list": "cpp",
+		"iomanip": "cpp",
+		"ios": "cpp",
+		"iostream": "cpp",
+		"istream": "cpp",
+		"mutex": "cpp",
+		"numbers": "cpp",
+		"optional": "cpp",
+		"print": "cpp",
+		"semaphore": "cpp",
+		"shared_mutex": "cpp",
+		"source_location": "cpp",
+		"span": "cpp",
+		"sstream": "cpp",
+		"streambuf": "cpp",
+		"unordered_set": "cpp",
+		"variant": "cpp",
+		"atomic": "cpp",
+		"bit": "cpp",
+		"compare": "cpp",
+		"concepts": "cpp",
+		"exception": "cpp",
+		"memory_resource": "cpp",
+		"random": "cpp",
+		"system_error": "cpp",
+		"tuple": "cpp",
+		"type_traits": "cpp",
+		"format": "cpp",
+		"ostream": "cpp",
+		"ranges": "cpp",
+		"stdfloat": "cpp",
+		"stop_token": "cpp",
+		"thread": "cpp",
+		"cinttypes": "cpp"
+	}
+}
