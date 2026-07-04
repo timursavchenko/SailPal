@@ -1,7 +1,12 @@
 <style>
 	.boatsLayout {
-		padding: 12px;
+		box-sizing: border-box;
+		padding: 18px;
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		overflow: hidden;
 	}
 
 	.boatsPanel {
@@ -9,10 +14,327 @@
 		color: var(--onPanelColor);
 		border-radius: 8px;
 		border: 1px solid color-mix(in srgb, var(--onPanelColor) 10%, transparent);
+		padding: 16px;
+		box-sizing: border-box;
+	}
+
+	.boatsToolbar {
+		display: grid;
+		grid-template-columns: minmax(220px, 1fr) 180px 130px auto;
+		gap: 10px;
+		align-items: center;
+	}
+
+	.boatsToolbar input,
+	.boatsToolbar select {
+		width: 100%;
+		height: 40px;
+		box-sizing: border-box;
+		border: 1px solid color-mix(in srgb, var(--onPanelColor) 16%, transparent);
+		border-radius: 6px;
+		padding: 0 12px;
+		background: color-mix(in srgb, var(--panelColor) 80%, var(--backgroundColor));
+		color: var(--onPanelColor);
+	}
+
+	.boatsToolbar button {
+		height: 40px;
+		padding: 0 16px;
+		white-space: nowrap;
+	}
+
+	.boatsStatus {
+		min-height: 22px;
+		font-size: 14px;
+		color: color-mix(in srgb, var(--onPanelColor) 72%, transparent);
+	}
+
+	.boatsStatus.boatsError {
+		color: #b00020;
+	}
+
+	.boatsList {
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow: auto;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 12px;
+		align-content: start;
+	}
+
+	.boatCard {
+		display: grid;
+		grid-template-rows: 150px auto;
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.boatImage {
+		background: color-mix(in srgb, var(--onPanelColor) 8%, transparent);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.boatImage img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.boatImageFallback {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 36px;
+		color: color-mix(in srgb, var(--onPanelColor) 48%, transparent);
+	}
+
+	.boatCardBody {
 		padding: 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.boatTitle {
+		font-size: 18px;
+		font-weight: 700;
+		line-height: 1.2;
+		word-break: break-word;
+	}
+
+	.boatSubtitle {
+		font-size: 13px;
+		color: color-mix(in srgb, var(--onPanelColor) 68%, transparent);
+		line-height: 1.35;
+	}
+
+	.boatMetaGrid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+		font-size: 13px;
+	}
+
+	.boatMetaItem {
+		min-width: 0;
+		padding: 8px;
+		border-radius: 6px;
+		background: color-mix(in srgb, var(--onPanelColor) 6%, transparent);
+	}
+
+	.boatMetaLabel {
+		display: block;
+		font-size: 11px;
+		color: color-mix(in srgb, var(--onPanelColor) 58%, transparent);
+	}
+
+	.boatMetaValue {
+		display: block;
+		font-weight: 600;
+		margin-top: 2px;
+		word-break: break-word;
+	}
+
+	@media (max-width: 760px) {
+		.boatsLayout {
+			padding: 12px;
+		}
+
+		.boatsToolbar {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>
 
-<div class="boatsLayout">
-	<div class="boatsPanel">$tr{Boats module stub}</div>
+<div class="boatsLayout" id="boatsLayout">
+	<div class="boatsPanel boatsToolbar">
+		<input id="boatsSearchInput" type="text">
+		<select id="boatsKindSelect">
+			<option value=""></option>
+			<option value="sailboat"></option>
+			<option value="catamaran"></option>
+			<option value="motorboat"></option>
+			<option value="motoryacht"></option>
+			<option value="gulet"></option>
+		</select>
+		<select id="boatsCurrencySelect">
+			<option value="EUR">EUR</option>
+			<option value="USD">USD</option>
+			<option value="GBP">GBP</option>
+		</select>
+		<button id="boatsRefreshButton">$tr{Refresh}</button>
+	</div>
+
+	<div id="boatsStatus" class="boatsStatus"></div>
+	<div id="boatsList" class="boatsList" aria-live="polite"></div>
 </div>
+
+<script>
+(function() {
+	"use strict";
+
+	var MODULE_NAME = "boats";
+	var GET_BOATS_TASK = "GetBoatsTask";
+	var searchInput = document.getElementById("boatsSearchInput");
+	var kindSelect = document.getElementById("boatsKindSelect");
+	var currencySelect = document.getElementById("boatsCurrencySelect");
+	var refreshButton = document.getElementById("boatsRefreshButton");
+	var statusElement = document.getElementById("boatsStatus");
+	var listElement = document.getElementById("boatsList");
+	var searchTimer = null;
+	var TEXT_SEARCH_BOATS = "$tr{Search boats}";
+	var TEXT_BOAT_TYPE = "$tr{Boat type}";
+	var TEXT_ALL_BOAT_TYPES = "$tr{All boat types}";
+	var TEXT_SAILBOAT = "$tr{Sailboat}";
+	var TEXT_CATAMARAN = "$tr{Catamaran}";
+	var TEXT_MOTORBOAT = "$tr{Motorboat}";
+	var TEXT_MOTOR_YACHT = "$tr{Motor yacht}";
+	var TEXT_GULET = "$tr{Gulet}";
+	var TEXT_CURRENCY = "$tr{Currency}";
+	var TEXT_EMPTY_RESPONSE = "$tr{Empty response.}";
+	var TEXT_FAILED_TO_LOAD_BOATS = "$tr{Failed to load boats}";
+	var TEXT_BOAT_IMAGE = "$tr{Boat image}";
+	var TEXT_UNNAMED_BOAT = "$tr{Unnamed boat}";
+	var TEXT_YEAR = "$tr{Year}";
+	var TEXT_BASE = "$tr{Base}";
+	var TEXT_COMPANY = "$tr{Company}";
+	var TEXT_CABINS = "$tr{Cabins}";
+	var TEXT_BERTHS = "$tr{Berths}";
+	var TEXT_LENGTH = "$tr{Length}";
+	var TEXT_NO_BOATS_FOUND = "$tr{No boats found}";
+	var TEXT_LOADING_BOATS = "$tr{Loading boats}";
+	var TEXT_BOATS_LOADED = "$tr{Boats loaded}";
+
+	function escapeHtml(value) {
+		return String(value == null ? "" : value)
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/\"/g, "&quot;")
+			.replace(/'/g, "&#39;");
+	}
+
+	function setStatus(message, isError) {
+		statusElement.textContent = String(message || "");
+		statusElement.classList.toggle("boatsError", isError === true);
+	}
+
+	function applyStaticTranslations() {
+		searchInput.placeholder = TEXT_SEARCH_BOATS;
+		kindSelect.setAttribute("aria-label", TEXT_BOAT_TYPE);
+		currencySelect.setAttribute("aria-label", TEXT_CURRENCY);
+
+		var kindLabels = {
+			"": TEXT_ALL_BOAT_TYPES,
+			sailboat: TEXT_SAILBOAT,
+			catamaran: TEXT_CATAMARAN,
+			motorboat: TEXT_MOTORBOAT,
+			motoryacht: TEXT_MOTOR_YACHT,
+			gulet: TEXT_GULET
+		};
+		for(var i = 0; i < kindSelect.options.length; i++) {
+			var option = kindSelect.options[i];
+			option.textContent = kindLabels[option.value] || option.value;
+		}
+	}
+
+	function request(taskCode, payload) {
+		return new Promise(function(resolve, reject) {
+			if(typeof sendRequest !== "function") {
+				reject("sendRequest is not available");
+				return;
+			}
+
+			sendRequest(MODULE_NAME, taskCode, payload || {}, function(resp) {
+				if(!resp) {
+					reject(TEXT_EMPTY_RESPONSE);
+					return;
+				}
+				if(typeof window.respHasError === "function" && window.respHasError(resp)) {
+					reject(resp.errorMessage || TEXT_FAILED_TO_LOAD_BOATS);
+					return;
+				}
+				if(resp.errorMessage) {
+					reject(resp.errorMessage);
+					return;
+				}
+				resolve(resp.response || {});
+			});
+		});
+	}
+
+	function metaItem(label, value) {
+		var normalizedValue = String(value == null || value === "" || value === 0 ? "-" : value);
+		return "<div class=\"boatMetaItem\"><span class=\"boatMetaLabel\">" + escapeHtml(label) + "</span><span class=\"boatMetaValue\">" + escapeHtml(normalizedValue) + "</span></div>";
+	}
+
+	function renderBoatCard(boat) {
+		var imageUrl = String(boat.imageUrl || "");
+		var imageHtml = imageUrl !== ""
+			? "<img src=\"" + escapeHtml(imageUrl) + "\" alt=\"" + escapeHtml(boat.name || TEXT_BOAT_IMAGE) + "\" loading=\"lazy\" onerror=\"this.style.display='none'\">"
+			: "";
+
+		return "<article class=\"boatsPanel boatCard\">" +
+			"<div class=\"boatImage\">" + imageHtml + "<div class=\"boatImageFallback\"><i class=\"fa-solid fa-ship\"></i></div></div>" +
+			"<div class=\"boatCardBody\">" +
+			"<div><div class=\"boatTitle\">" + escapeHtml(boat.name || TEXT_UNNAMED_BOAT) + "</div>" +
+			"<div class=\"boatSubtitle\">" + escapeHtml([boat.model, boat.kind].filter(Boolean).join(" • ")) + "</div></div>" +
+			"<div class=\"boatMetaGrid\">" +
+			metaItem(TEXT_YEAR, boat.year) +
+			metaItem(TEXT_BASE, boat.homeBase) +
+			metaItem(TEXT_COMPANY, boat.company) +
+			metaItem(TEXT_CABINS, boat.cabins) +
+			metaItem(TEXT_BERTHS, boat.berths) +
+			metaItem(TEXT_LENGTH, boat.length ? boat.length + " m" : "") +
+			"</div></div></article>";
+	}
+
+	function renderBoats(items) {
+		if(!Array.isArray(items) || items.length === 0) {
+			listElement.innerHTML = "<div class=\"boatsPanel\">" + escapeHtml(TEXT_NO_BOATS_FOUND) + "</div>";
+			return;
+		}
+
+		listElement.innerHTML = items.map(renderBoatCard).join("");
+	}
+
+	function loadBoats() {
+		refreshButton.disabled = true;
+		setStatus(TEXT_LOADING_BOATS + "...", false);
+
+		request(GET_BOATS_TASK, {
+			search: searchInput.value || "",
+			kind: kindSelect.value || "",
+			currency: currencySelect.value || "EUR"
+		}).then(function(response) {
+			renderBoats(response.items || []);
+			setStatus(TEXT_BOATS_LOADED + ": " + String(response.count || 0), false);
+		}).catch(function(errorMessage) {
+			listElement.innerHTML = "";
+			setStatus(String(errorMessage || TEXT_FAILED_TO_LOAD_BOATS), true);
+		}).finally(function() {
+			refreshButton.disabled = false;
+		});
+	}
+
+	function scheduleLoadBoats() {
+		if(searchTimer) {
+			window.clearTimeout(searchTimer);
+		}
+		searchTimer = window.setTimeout(loadBoats, 250);
+	}
+
+	refreshButton.addEventListener("click", loadBoats);
+	kindSelect.addEventListener("change", loadBoats);
+	currencySelect.addEventListener("change", loadBoats);
+	searchInput.addEventListener("input", scheduleLoadBoats);
+
+	applyStaticTranslations();
+	loadBoats();
+})();
+</script>

@@ -2,6 +2,8 @@
 
 #include <nexus.h>
 
+#include "BoatsStorageAdapter.h"
+
 class BoatsModule : public Module {
 
 	public:
@@ -9,7 +11,9 @@ class BoatsModule : public Module {
 
 	public:
 		virtual void initialize(const QVariantHash& params = {}) override;
+		BoatsStorageAdapter& storage();
+		const BoatsStorageAdapter& storage() const;
 
 	private:
-		StorageAdapter m_storageAdapter;
+		BoatsStorageAdapter m_storageAdapter;
 };

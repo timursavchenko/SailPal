@@ -51,4 +51,59 @@
 		<translation lang="jpn">ボートタブを表示</translation>
 		<translation lang="kor">보트 탭 표시</translation>
 	</text>
+	<text source="GetBoatsTask" context="/server/server.html">
+		<translation lang="eng">View boats list</translation>
+		<translation lang="deu">Bootsliste anzeigen</translation>
+		<translation lang="fra">Afficher la liste des bateaux</translation>
+		<translation lang="spa">Ver lista de barcos</translation>
+		<translation lang="por">Ver lista de barcos</translation>
+		<translation lang="ita">Visualizza elenco barche</translation>
+		<translation lang="tur">Bot listesini görüntüle</translation>
+		<translation lang="aze">Bot listesini görüntüle</translation>
+		<translation lang="hun">Hajólista megtekintése</translation>
+		<translation lang="rus">Просматривать список лодок</translation>
+		<translation lang="ell">Προβολή λίστας σκαφών</translation>
+		<translation lang="hin">नावों की सूची देखें</translation>
+		<translation lang="zho">查看船只列表</translation>
+		<translation lang="jpn">ボート一覧を表示</translation>
+		<translation lang="kor">보트 목록 보기</translation>
+	</text>
+	<text source="GetBoatsSettingsTask" context="/server/server.html"><translation lang="eng">View boats settings</translation><translation lang="rus">Просматривать настройки лодок</translation><translation lang="aze">Bot ayarlarına bax</translation></text>
+	<text source="ApplyBoatsSettingsTask" context="/server/server.html"><translation lang="eng">Apply boats settings</translation><translation lang="rus">Применять настройки лодок</translation><translation lang="aze">Bot ayarlarını tətbiq et</translation></text>
+	<text source="Booking Manager settings" context="/server/server.html"><translation lang="eng">Booking Manager settings</translation><translation lang="rus">Настройки Booking Manager</translation><translation lang="aze">Booking Manager ayarları</translation></text>
+	<text source="Booking Manager API base URL" context="/server/server.html"><translation lang="eng">Booking Manager API base URL</translation><translation lang="rus">Базовый URL Booking Manager API</translation><translation lang="aze">Booking Manager API əsas URL-i</translation></text>
+	<text source="Bearer token" context="/server/server.html"><translation lang="eng">Bearer token</translation><translation lang="rus">Bearer token</translation><translation lang="aze">Bearer token</translation></text>
+	<text source="Leave empty to keep current token" context="/server/server.html"><translation lang="eng">Leave empty to keep current token</translation><translation lang="rus">Оставьте пустым, чтобы сохранить текущий token</translation><translation lang="aze">Cari tokeni saxlamaq üçün boş buraxın</translation></text>
+	<text source="Clear token" context="/server/server.html"><translation lang="eng">Clear token</translation><translation lang="rus">Очистить token</translation><translation lang="aze">Tokeni sil</translation></text>
+	<text source="Default currency" context="/server/server.html"><translation lang="eng">Default currency</translation><translation lang="rus">Валюта по умолчанию</translation><translation lang="aze">Standart valyuta</translation></text>
+	<text source="Company ID" context="/server/server.html"><translation lang="eng">Company ID</translation><translation lang="rus">ID компании</translation><translation lang="aze">Şirkət ID-si</translation></text>
+	<text source="Loading settings..." context="/server/server.html"><translation lang="eng">Loading settings...</translation><translation lang="rus">Загрузка настроек...</translation><translation lang="aze">Ayarlar yüklənir...</translation></text>
+	<text source="Token configured" context="/server/server.html"><translation lang="eng">Token configured</translation><translation lang="rus">Token настроен</translation><translation lang="aze">Token qurulub</translation></text>
+	<text source="Token not configured" context="/server/server.html"><translation lang="eng">Token not configured</translation><translation lang="rus">Token не настроен</translation><translation lang="aze">Token qurulmayıb</translation></text>
+	<text source="Token not required for test data" context="/server/server.html"><translation lang="eng">Token not required for test data</translation><translation lang="rus">Token не нужен для тестовых данных</translation><translation lang="aze">Test məlumatları üçün token tələb olunmur</translation></text>
+	<text source="Can't get boats settings" context="/server/server.html"><translation lang="eng">Can't get boats settings</translation><translation lang="rus">Не удаётся получить настройки лодок</translation><translation lang="aze">Bot ayarlarını almaq olmur</translation></text>
+	<text source="Can't apply boats settings" context="/server/server.html"><translation lang="eng">Can't apply boats settings</translation><translation lang="rus">Не удаётся применить настройки лодок</translation><translation lang="aze">Bot ayarlarını tətbiq etmək olmur</translation></text>
+	<text source="Search boats" context="/boats/boats.html"><translation lang="eng">Search boats</translation><translation lang="rus">Поиск лодок</translation><translation lang="aze">Botlarda axtar</translation></text>
+	<text source="Boat type" context="/boats/boats.html"><translation lang="eng">Boat type</translation><translation lang="rus">Тип лодки</translation><translation lang="aze">Bot növü</translation></text>
+	<text source="All boat types" context="/boats/boats.html"><translation lang="eng">All boat types</translation><translation lang="rus">Все типы лодок</translation><translation lang="aze">Bütün bot növləri</translation></text>
+	<text source="Sailboat" context="/boats/boats.html"><translation lang="eng">Sailboat</translation><translation lang="rus">Парусная лодка</translation><translation lang="aze">Yelkənli bot</translation></text>
+	<text source="Catamaran" context="/boats/boats.html"><translation lang="eng">Catamaran</translation><translation lang="rus">Катамаран</translation><translation lang="aze">Katamaran</translation></text>
+	<text source="Motorboat" context="/boats/boats.html"><translation lang="eng">Motorboat</translation><translation lang="rus">Моторная лодка</translation><translation lang="aze">Motorlu bot</translation></text>
+	<text source="Motor yacht" context="/boats/boats.html"><translation lang="eng">Motor yacht</translation><translation lang="rus">Моторная яхта</translation><translation lang="aze">Motor yaxtası</translation></text>
+	<text source="Gulet" context="/boats/boats.html"><translation lang="eng">Gulet</translation><translation lang="rus">Гулет</translation><translation lang="aze">Qulet</translation></text>
+	<text source="Currency" context="/boats/boats.html"><translation lang="eng">Currency</translation><translation lang="rus">Валюта</translation><translation lang="aze">Valyuta</translation></text>
+	<text source="Refresh" context="/boats/boats.html"><translation lang="eng">Refresh</translation><translation lang="rus">Обновить</translation><translation lang="aze">Yenilə</translation></text>
+	<text source="Empty response." context="/boats/boats.html"><translation lang="eng">Empty response.</translation><translation lang="rus">Пустой ответ.</translation><translation lang="aze">Boş cavab.</translation></text>
+	<text source="Failed to load boats" context="/boats/boats.html"><translation lang="eng">Failed to load boats</translation><translation lang="rus">Не удалось загрузить лодки</translation><translation lang="aze">Botlar yüklənmədi</translation></text>
+	<text source="Boat image" context="/boats/boats.html"><translation lang="eng">Boat image</translation><translation lang="rus">Изображение лодки</translation><translation lang="aze">Bot şəkli</translation></text>
+	<text source="Unnamed boat" context="/boats/boats.html"><translation lang="eng">Unnamed boat</translation><translation lang="rus">Лодка без названия</translation><translation lang="aze">Adsız bot</translation></text>
+	<text source="Year" context="/boats/boats.html"><translation lang="eng">Year</translation><translation lang="rus">Год</translation><translation lang="aze">İl</translation></text>
+	<text source="Base" context="/boats/boats.html"><translation lang="eng">Base</translation><translation lang="rus">База</translation><translation lang="aze">Baza</translation></text>
+	<text source="Company" context="/boats/boats.html"><translation lang="eng">Company</translation><translation lang="rus">Компания</translation><translation lang="aze">Şirkət</translation></text>
+	<text source="Cabins" context="/boats/boats.html"><translation lang="eng">Cabins</translation><translation lang="rus">Каюты</translation><translation lang="aze">Kabinlər</translation></text>
+	<text source="Berths" context="/boats/boats.html"><translation lang="eng">Berths</translation><translation lang="rus">Спальные места</translation><translation lang="aze">Yataq yerləri</translation></text>
+	<text source="Length" context="/boats/boats.html"><translation lang="eng">Length</translation><translation lang="rus">Длина</translation><translation lang="aze">Uzunluq</translation></text>
+	<text source="No boats found" context="/boats/boats.html"><translation lang="eng">No boats found</translation><translation lang="rus">Лодки не найдены</translation><translation lang="aze">Bot tapılmadı</translation></text>
+	<text source="Loading boats" context="/boats/boats.html"><translation lang="eng">Loading boats</translation><translation lang="rus">Загрузка лодок</translation><translation lang="aze">Botlar yüklənir</translation></text>
+	<text source="Boats loaded" context="/boats/boats.html"><translation lang="eng">Boats loaded</translation><translation lang="rus">Лодок загружено</translation><translation lang="aze">Yüklənən botlar</translation></text>
 </translations>

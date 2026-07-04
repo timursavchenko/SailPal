@@ -5,7 +5,12 @@ project(SailPalServer)
 set(SOURCES
 	src/main.cpp
 	src/modules/boats/BoatsModule.cpp
+	src/modules/boats/BoatsStorageAdapter.cpp
+	src/modules/boats/api/BookingManagerClient.cpp
+	src/modules/boats/tasks/ApplyBoatsSettingsTask.cpp
 	src/modules/boats/tasks/BoatsTask.cpp
+	src/modules/boats/tasks/GetBoatsTask.cpp
+	src/modules/boats/tasks/GetBoatsSettingsTask.cpp
 	src/modules/boats/tasks/ShowBoatsTask.cpp
 	src/modules/boats/res/boats.qrc
 )
