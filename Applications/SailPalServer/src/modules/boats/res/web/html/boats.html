@@ -81,6 +81,8 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
+		position: relative;
+		z-index: 1;
 	}
 
 	.boatImageFallback {
@@ -91,6 +93,7 @@
 		justify-content: center;
 		font-size: 36px;
 		color: color-mix(in srgb, var(--onPanelColor) 48%, transparent);
+		z-index: 0;
 	}
 
 	.boatCardBody {
@@ -273,9 +276,14 @@
 		return "<div class=\"boatMetaItem\"><span class=\"boatMetaLabel\">" + escapeHtml(label) + "</span><span class=\"boatMetaValue\">" + escapeHtml(normalizedValue) + "</span></div>";
 	}
 
+	function isKnownBrokenBoatImageUrl(imageUrl) {
+		var normalizedUrl = String(imageUrl || "").trim().toLowerCase();
+		return normalizedUrl === "" || normalizedUrl.indexOf("/image123") !== -1;
+	}
+
 	function renderBoatCard(boat) {
 		var imageUrl = String(boat.imageUrl || "");
-		var imageHtml = imageUrl !== ""
+		var imageHtml = !isKnownBrokenBoatImageUrl(imageUrl)
 			? "<img src=\"" + escapeHtml(imageUrl) + "\" alt=\"" + escapeHtml(boat.name || TEXT_BOAT_IMAGE) + "\" loading=\"lazy\" onerror=\"this.style.display='none'\">"
 			: "";
 
