@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+	<text source="boats" context="None|/boats/boats.html">
+		<translation lang="eng">Boats</translation>
+		<translation lang="deu">Boote</translation>
+		<translation lang="fra">Bateaux</translation>
+		<translation lang="spa">Barcos</translation>
+		<translation lang="por">Barcos</translation>
+		<translation lang="ita">Barche</translation>
+		<translation lang="tur">Botlar</translation>
+		<translation lang="hun">Hajók</translation>
+		<translation lang="rus">Лодки</translation>
+		<translation lang="ell">Σκάφη</translation>
+		<translation lang="hin">नावें</translation>
+		<translation lang="zho">船只</translation>
+		<translation lang="jpn">ボート</translation>
+		<translation lang="kor">보트</translation>
+	</text>
+	<text source="Boats module stub" context="/boats/boats.html">
+		<translation lang="eng">Boats module stub.</translation>
+		<translation lang="deu">Boats-Modulplatzhalter.</translation>
+		<translation lang="fra">Espace réservé du module Boats.</translation>
+		<translation lang="spa">Marcador de posición del módulo Boats.</translation>
+		<translation lang="por">Espaço reservado do módulo Boats.</translation>
+		<translation lang="ita">Segnaposto del modulo Boats.</translation>
+		<translation lang="tur">Boats modülü yer tutucusu.</translation>
+		<translation lang="hun">Boats modul helyőrző.</translation>
+		<translation lang="rus">Заглушка модуля Boats.</translation>
+		<translation lang="ell">Υποκατάστατο λειτουργίας Boats.</translation>
+		<translation lang="hin">Boats मॉड्यूल प्लेसहोल्डर।</translation>
+		<translation lang="zho">Boats 模块占位符。</translation>
+		<translation lang="jpn">Boats モジュールのプレースホルダー。</translation>
+		<translation lang="kor">Boats 모듈 자리표시자.</translation>
+	</text>
+	<text source="ShowBoatsTask" context="/server/server.html">
+		<translation lang="eng">Show Boats tab</translation>
+		<translation lang="deu">Registerkarte Boote anzeigen</translation>
+		<translation lang="fra">Afficher l'onglet Bateaux</translation>
+		<translation lang="spa">Mostrar la pestaña Barcos</translation>
+		<translation lang="por">Mostrar a aba Barcos</translation>
+		<translation lang="ita">Mostra la scheda Barche</translation>
+		<translation lang="tur">Botlar sekmesini göster</translation>
+		<translation lang="hun">Hajók fül megjelenítése</translation>
+		<translation lang="rus">Показывать вкладку Лодки</translation>
+		<translation lang="ell">Εμφάνιση καρτέλας Σκάφη</translation>
+		<translation lang="hin">नावें टैब दिखाएं</translation>
+		<translation lang="zho">显示船只标签</translation>
+		<translation lang="jpn">ボートタブを表示</translation>
+		<translation lang="kor">보트 탭 표시</translation>
+	</text>
+</translations>

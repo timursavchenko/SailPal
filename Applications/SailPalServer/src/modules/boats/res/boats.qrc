@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/boats">
+        <file>translations.xml</file>
+		<file>web/html/boats.html</file>
+    </qresource>
+</RCC>

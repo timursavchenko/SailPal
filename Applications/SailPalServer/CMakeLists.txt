@@ -4,6 +4,10 @@ project(SailPalServer)
 
 set(SOURCES
 	src/main.cpp
+	src/modules/boats/BoatsModule.cpp
+	src/modules/boats/tasks/BoatsTask.cpp
+	src/modules/boats/tasks/ShowBoatsTask.cpp
+	src/modules/boats/res/boats.qrc
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")

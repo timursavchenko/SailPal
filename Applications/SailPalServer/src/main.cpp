@@ -1,5 +1,7 @@
 #include <nexus.h>
 
+#include "modules/boats/BoatsModule.h"
+
 int main(int argc, char* argv[]) {
 
 	qDebug() << "SailPalServer: main() started";
@@ -8,6 +10,9 @@ int main(int argc, char* argv[]) {
 		qDebug() << "SailPalServer: Creating ConsoleApplication...";
 		ConsoleApplication app(argc, argv);
 		qDebug() << "SailPalServer: ConsoleApplication created successfully";
+		qDebug() << "SailPalServer: Adding BoatsModule...";
+		app.addModule<BoatsModule>();
+		qDebug() << "SailPalServer: BoatsModule added successfully";
 		
 		qDebug() << "SailPalServer: Calling app.start()...";
 		int result = app.start();
