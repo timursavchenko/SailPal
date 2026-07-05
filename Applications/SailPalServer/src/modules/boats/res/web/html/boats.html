@@ -25,7 +25,8 @@
 		align-items: center;
 	}
 
-	.boatsCustomSelect {
+	.boatsToolbar .custom-select,
+	.boatsFilters .custom-select {
 		position: relative;
 		width: 100%;
 		min-width: 0;
@@ -55,9 +56,7 @@
 	}
 
 	.boatsToolbar input:focus,
-	.boatsToolbar select:focus,
-	.boatsFilters input:focus,
-	.boatsFilters select:focus {
+	.boatsFilters input:focus {
 		outline: none;
 		border-color: color-mix(in srgb, var(--primaryColor) 60%, white 10%);
 		box-shadow: 0 0 0 2px color-mix(in srgb, var(--primaryColor) 18%, transparent);
@@ -75,9 +74,7 @@
 		gap: 10px;
 	}
 
-	.boatsFilters input,
-	.boatsFilters select,
-	.boatsFilters button {
+	.boatsFilters > button {
 		width: 100%;
 		height: 40px;
 		box-sizing: border-box;
@@ -88,88 +85,39 @@
 		color: var(--onPanelColor);
 	}
 
-	.boatsFilters input {
-		width: 100%;
-		height: 40px;
-		box-sizing: border-box;
-		border: 1px solid color-mix(in srgb, var(--onPanelColor) 16%, transparent);
-		border-radius: 6px;
-		padding: 0 12px;
-		background: color-mix(in srgb, var(--panelColor) 80%, var(--backgroundColor));
-		color: var(--onPanelColor);
-	}
 
-	.boatsCustomSelect select {
-		display: none;
-	}
-
-	.boatsCustomSelect .select-selected {
-		position: relative;
+	.boatsToolbar .custom-select .select-selected,
+	.boatsFilters .custom-select .select-selected {
 		display: flex;
 		align-items: center;
 		width: 100%;
 		height: 40px;
 		box-sizing: border-box;
-		border: 1px solid color-mix(in srgb, var(--onPanelColor) 16%, transparent);
-		border-radius: 6px;
-		padding: 0 36px 0 12px;
-		background: color-mix(in srgb, var(--panelColor) 80%, var(--backgroundColor));
-		color: var(--onPanelColor);
-		cursor: pointer;
-		user-select: none;
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 
-	.boatsCustomSelect .select-selected:after {
-		position: absolute;
-		content: "";
+	.boatsToolbar .custom-select .select-selected:after,
+	.boatsFilters .custom-select .select-selected:after {
 		top: calc(50% - 3px);
-		right: 12px;
-		width: 0;
-		height: 0;
-		border: 6px solid transparent;
-		border-color: color-mix(in srgb, var(--onPanelColor) 62%, transparent) transparent transparent transparent;
 	}
 
-	.boatsCustomSelect .select-selected.select-arrow-active {
-		border-color: color-mix(in srgb, var(--primaryColor) 60%, white 10%);
-		box-shadow: 0 0 0 2px color-mix(in srgb, var(--primaryColor) 18%, transparent);
+	.boatsToolbar .custom-select .select-selected.select-arrow-active:after,
+	.boatsFilters .custom-select .select-selected.select-arrow-active:after {
+		top: calc(50% - 10px);
 	}
 
-	.boatsCustomSelect .select-selected.select-arrow-active:after {
-		top: calc(50% - 9px);
-		border-color: transparent transparent color-mix(in srgb, var(--onPanelColor) 62%, transparent) transparent;
-	}
-
-	.boatsCustomSelect .select-items {
-		position: absolute;
-		top: calc(100% + 6px);
-		left: 0;
-		right: 0;
+	.boatsToolbar .custom-select .select-items,
+	.boatsFilters .custom-select .select-items {
 		z-index: 30;
-		background: color-mix(in srgb, var(--panelColor) 92%, var(--backgroundColor));
-		border: 1px solid color-mix(in srgb, var(--onPanelColor) 12%, transparent);
-		border-radius: 10px;
-		box-shadow: 0 18px 40px color-mix(in srgb, black 24%, transparent);
-		overflow: hidden;
 		max-height: 280px;
 		overflow-y: auto;
 	}
 
-	.boatsCustomSelect .select-items div {
-		padding: 10px 12px;
-		color: var(--onPanelColor);
-		cursor: pointer;
-		background: transparent;
-	}
-
-	.boatsCustomSelect .select-items div:hover,
-	.boatsCustomSelect .same-as-selected {
-		background-color: color-mix(in srgb, var(--hoverColor) 78%, transparent);
-		color: var(--onHoverColor);
-	}
-
-	.boatsCustomSelect .select-hide {
-		display: none;
+	.boatsToolbar .custom-select .select-items div,
+	.boatsFilters .custom-select .select-items div {
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 
 	.boatsStatus {
@@ -464,7 +412,7 @@
 <div class="boatsLayout" id="boatsLayout">
 	<div class="boatsPanel boatsToolbar">
 		<input id="boatsSearchInput" type="text">
-		<div id="boatsKindCombo" class="boatsCustomSelect">
+		<div id="boatsKindCombo" class="custom-select">
 			<select id="boatsKindSelect">
 				<option value=""></option>
 				<option value="sailboat"></option>
@@ -474,7 +422,7 @@
 				<option value="gulet"></option>
 			</select>
 		</div>
-		<div id="boatsCurrencyCombo" class="boatsCustomSelect">
+		<div id="boatsCurrencyCombo" class="custom-select">
 			<select id="boatsCurrencySelect">
 				<option value=""></option>
 				<option value="EUR">EUR</option>
@@ -488,12 +436,30 @@
 	</div>
 
 	<div class="boatsPanel boatsFilters">
-		<div id="boatsCompanyCombo" class="boatsCustomSelect"><select id="boatsCompanySelect"><option value=""></option></select></div>
-		<div id="boatsBaseCombo" class="boatsCustomSelect"><select id="boatsBaseSelect"><option value=""></option></select></div>
-		<input id="boatsMinCabinsInput" type="number" min="0" step="1">
-		<input id="boatsMinBerthsInput" type="number" min="0" step="1">
-		<input id="boatsMinLengthInput" type="number" min="0" step="0.1">
-		<div id="boatsSortByCombo" class="boatsCustomSelect">
+		<div id="boatsCompanyCombo" class="custom-select"><select id="boatsCompanySelect"><option value=""></option></select></div>
+		<div id="boatsBaseCombo" class="custom-select"><select id="boatsBaseSelect"><option value=""></option></select></div>
+		<div class="custom-spinbox">
+			<input id="boatsMinCabinsInput" type="number" min="0" step="1">
+			<div class="custom-spinbox-buttons">
+				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinCabinsInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
+				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinCabinsInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
+			</div>
+		</div>
+		<div class="custom-spinbox">
+			<input id="boatsMinBerthsInput" type="number" min="0" step="1">
+			<div class="custom-spinbox-buttons">
+				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinBerthsInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
+				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinBerthsInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
+			</div>
+		</div>
+		<div class="custom-spinbox">
+			<input id="boatsMinLengthInput" type="number" min="0" step="0.1">
+			<div class="custom-spinbox-buttons">
+				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinLengthInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
+				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinLengthInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
+			</div>
+		</div>
+		<div id="boatsSortByCombo" class="custom-select">
 			<select id="boatsSortBySelect">
 				<option value=""></option>
 				<option value="name"></option>
@@ -505,7 +471,7 @@
 				<option value="berths"></option>
 			</select>
 		</div>
-		<div id="boatsSortDirectionCombo" class="boatsCustomSelect">
+		<div id="boatsSortDirectionCombo" class="custom-select">
 			<select id="boatsSortDirectionSelect">
 				<option value=""></option>
 				<option value="asc"></option>
@@ -1073,6 +1039,25 @@
 		loadBoats();
 	}
 
+	function stepSpinbox(input, direction) {
+		if(!input) {
+			return;
+		}
+
+		if(direction === "down") {
+			input.stepDown();
+		} else {
+			input.stepUp();
+		}
+
+		if(input.value && Number(input.value) < 0) {
+			input.value = 0;
+		}
+
+		input.dispatchEvent(new Event("input", { bubbles: true }));
+		input.dispatchEvent(new Event("change", { bubbles: true }));
+	}
+
 	refreshButton.addEventListener("click", loadBoats);
 	kindSelect.addEventListener("change", loadBoats);
 	currencySelect.addEventListener("change", loadBoats);
@@ -1087,6 +1072,13 @@
 	sortDirectionSelect.addEventListener("change", loadBoats);
 	clearFiltersButton.addEventListener("click", clearFilters);
 	searchInput.addEventListener("input", scheduleLoadBoats);
+	document.querySelectorAll(".custom-spinbox-button").forEach(function(button) {
+		button.addEventListener("click", function() {
+			var targetId = button.getAttribute("data-spinbox-target");
+			var direction = button.getAttribute("data-spinbox-direction") || "up";
+			stepSpinbox(document.getElementById(targetId), direction);
+		});
+	});
 	detailsCloseButton.addEventListener("click", closeDetails);
 	detailsBackdrop.addEventListener("click", closeDetails);
 	detailsContentElement.addEventListener("click", function(event) {
