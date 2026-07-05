@@ -179,7 +179,7 @@
 
 	.boatsToolbar input,
 	.boatsToolbar select,
-	.boatsFiltersModalPanel input,
+	.boatsFiltersModalPanel input:not([type="number"]),
 	.boatsFiltersModalPanel select {
 		width: 100%;
 		height: 40px;
@@ -203,7 +203,7 @@
 	}
 
 	.boatsToolbar input:focus,
-	.boatsFiltersModalPanel input:focus,
+	.boatsFiltersModalPanel input:not([type="number"]):focus,
 	.boatsToolbar select:focus,
 	.boatsFiltersModalPanel select:focus {
 		outline: none;
