@@ -1,6 +1,21 @@
 #include "BookingManagerClient.h"
 
+#include <QCryptographicHash>
+#include <QDateTime>
+#include <QMutex>
+#include <QMutexLocker>
+
 namespace {
+
+	constexpr qint64 kYachtsCacheTtlMs = 5 * 60 * 1000;
+	constexpr qint64 kYachtCacheTtlMs = 5 * 60 * 1000;
+	constexpr qint64 kOffersCacheTtlMs = 30 * 1000;
+	constexpr int kMaxCacheEntries = 128;
+
+	struct CacheEntry {
+		qint64 expiresAtMs = 0;
+		BookingManagerClient::Response response;
+	};
 
 	static QString normalizeBaseUrl(QString baseUrl) {
 		baseUrl = baseUrl.trimmed();
@@ -15,6 +30,153 @@ namespace {
 		if(!normalizedValue.isEmpty()) {
 			query.addQueryItem(name, normalizedValue);
 		}
+	}
+
+	static QMutex& cacheMutex() {
+		static QMutex mutex;
+		return mutex;
+	}
+
+	static QHash<QString, CacheEntry>& responseCache() {
+		static QHash<QString, CacheEntry> cache;
+		return cache;
+	}
+
+	static qint64 cacheTtlMs(const QString& path) {
+		if(path == QStringLiteral("/offers")) {
+			return kOffersCacheTtlMs;
+		}
+		if(path == QStringLiteral("/yachts")) {
+			return kYachtsCacheTtlMs;
+		}
+		if(path.startsWith(QStringLiteral("/yacht/"))) {
+			return kYachtCacheTtlMs;
+		}
+		return 0;
+	}
+
+	static void pruneCacheLocked(const qint64 nowMs) {
+		auto& cache = responseCache();
+		for(auto it = cache.begin(); it != cache.end(); ) {
+			if(it->expiresAtMs <= nowMs) {
+				it = cache.erase(it);
+				continue;
+			}
+			++it;
+		}
+
+		if(cache.size() > kMaxCacheEntries) {
+			cache.clear();
+		}
+	}
+
+	static bool tryGetCachedResponse(const QString& key, BookingManagerClient::Response& response) {
+		QMutexLocker locker(&cacheMutex());
+		const auto nowMs = QDateTime::currentMSecsSinceEpoch();
+		pruneCacheLocked(nowMs);
+
+		const auto it = responseCache().constFind(key);
+		if(it == responseCache().constEnd()) {
+			return false;
+		}
+
+		response = it->response;
+		return true;
+	}
+
+	static void storeCachedResponse(const QString& key, const QString& path, const BookingManagerClient::Response& response) {
+		const auto ttlMs = cacheTtlMs(path);
+		if(ttlMs <= 0 || !response.ok) {
+			return;
+		}
+
+		QMutexLocker locker(&cacheMutex());
+		const auto nowMs = QDateTime::currentMSecsSinceEpoch();
+		pruneCacheLocked(nowMs);
+		responseCache().insert(key, CacheEntry{nowMs + ttlMs, response});
+	}
+
+	static QString trimmedResponseText(const QByteArray& responseBody) {
+		auto text = QString::fromUtf8(responseBody).simplified();
+		if(text.size() > 240) {
+			text = text.left(237) + QStringLiteral("...");
+		}
+		return text;
+	}
+
+	static QString errorDetailFromJsonValue(const QJsonValue& value) {
+		if(value.isString()) {
+			return value.toString().trimmed();
+		}
+		if(value.isObject()) {
+			const auto object = value.toObject();
+			for(const auto& key : {
+				QStringLiteral("message"),
+				QStringLiteral("error"),
+				QStringLiteral("detail"),
+				QStringLiteral("description"),
+				QStringLiteral("title")
+			}) {
+				const auto detail = errorDetailFromJsonValue(object.value(key));
+				if(!detail.isEmpty()) {
+					return detail;
+				}
+			}
+			return {};
+		}
+		if(value.isArray()) {
+			const auto array = value.toArray();
+			for(const auto& item : array) {
+				const auto detail = errorDetailFromJsonValue(item);
+				if(!detail.isEmpty()) {
+					return detail;
+				}
+			}
+		}
+		return {};
+	}
+
+	static QString httpStatusSummary(const int statusCode) {
+		switch(statusCode) {
+			case 400: return QStringLiteral("Booking Manager API rejected the request.");
+			case 401: return QStringLiteral("Booking Manager API rejected the bearer token.");
+			case 403: return QStringLiteral("Booking Manager API denied access to this resource.");
+			case 404: return QStringLiteral("Booking Manager API endpoint was not found. Check the module base URL.");
+			case 429: return QStringLiteral("Booking Manager API rate limit was reached.");
+			case 500: return QStringLiteral("Booking Manager API returned an internal server error.");
+			case 502:
+			case 503:
+			case 504:
+				return QStringLiteral("Booking Manager API is temporarily unavailable.");
+			default:
+				return QStringLiteral("Booking Manager API returned HTTP %1.").arg(statusCode);
+		}
+	}
+
+	static QString networkErrorSummary(const QNetworkReply::NetworkError networkError, const QString& networkErrorString) {
+		switch(networkError) {
+			case QNetworkReply::ConnectionRefusedError:
+				return QStringLiteral("Booking Manager API connection was refused.");
+			case QNetworkReply::RemoteHostClosedError:
+				return QStringLiteral("Booking Manager API closed the connection unexpectedly.");
+			case QNetworkReply::HostNotFoundError:
+				return QStringLiteral("Booking Manager API host was not found. Check the module base URL.");
+			case QNetworkReply::TimeoutError:
+			case QNetworkReply::OperationCanceledError:
+				return QStringLiteral("Booking Manager API request timed out.");
+			case QNetworkReply::SslHandshakeFailedError:
+				return QStringLiteral("Booking Manager API TLS handshake failed.");
+			default:
+				return QStringLiteral("Booking Manager API request failed: %1").arg(networkErrorString);
+		}
+	}
+
+	static QString withOptionalDetail(QString message, const QString& detail) {
+		const auto normalizedDetail = detail.trimmed();
+		if(normalizedDetail.isEmpty()) {
+			return message;
+		}
+		return message + QStringLiteral(" Details: ") + normalizedDetail;
 	}
 
 }
@@ -77,6 +239,12 @@ BookingManagerClient::Response BookingManagerClient::get(const QString& path, co
 		};
 	}
 
+	Response cachedResponse;
+	const auto requestCacheKey = cacheKey(path, query);
+	if(tryGetCachedResponse(requestCacheKey, cachedResponse)) {
+		return cachedResponse;
+	}
+
 	QUrl url(m_baseUrl + path);
 	url.setQuery(query);
 
@@ -108,41 +276,52 @@ BookingManagerClient::Response BookingManagerClient::get(const QString& path, co
 	const auto networkErrorString = reply->errorString();
 	reply->deleteLater();
 
+	QJsonParseError parseError;
+	QJsonValue payload;
+	const auto hasResponseBody = !responseBody.trimmed().isEmpty();
+	if(hasResponseBody) {
+		const auto document = QJsonDocument::fromJson(responseBody, &parseError);
+		if(parseError.error == QJsonParseError::NoError) {
+			payload = document.isArray() ? QJsonValue(document.array()) : QJsonValue(document.object());
+		}
+	}
+
+	if(statusCode >= 400) {
+		const auto detail = !payload.isUndefined() ? errorDetailFromJsonValue(payload) : trimmedResponseText(responseBody);
+		return Response{false, statusCode, withOptionalDetail(httpStatusSummary(statusCode), detail), payload};
+	}
+
 	if(networkError != QNetworkReply::NoError) {
 		return Response{
 			false,
 			statusCode,
-			networkError == QNetworkReply::OperationCanceledError
-				? QStringLiteral("Booking Manager API request timed out.")
-				: QStringLiteral("Booking Manager API request failed: ") + networkErrorString,
-			{}
+			withOptionalDetail(networkErrorSummary(networkError, networkErrorString), trimmedResponseText(responseBody)),
+			payload
 		};
 	}
 
-	QJsonParseError parseError;
-	const auto document = QJsonDocument::fromJson(responseBody, &parseError);
 	if(parseError.error != QJsonParseError::NoError) {
 		return Response{
 			false,
 			statusCode,
-			QStringLiteral("Booking Manager API returned invalid JSON."),
+			withOptionalDetail(QStringLiteral("Booking Manager API returned invalid JSON."), trimmedResponseText(responseBody)),
 			{}
 		};
 	}
 
-	if(statusCode < 200 || statusCode >= 300) {
-		return Response{
-			false,
-			statusCode,
-			QStringLiteral("Booking Manager API returned HTTP %1.").arg(statusCode),
-			document.isArray() ? QJsonValue(document.array()) : QJsonValue(document.object())
-		};
-	}
-
-	return Response{
+	const auto response = Response{
 		true,
 		statusCode,
 		{},
-		document.isArray() ? QJsonValue(document.array()) : QJsonValue(document.object())
+		payload
 	};
+	storeCachedResponse(requestCacheKey, path, response);
+	return response;
+}
+
+QString BookingManagerClient::cacheKey(const QString& path, const QUrlQuery& query) const {
+	QUrl url(m_baseUrl + path);
+	url.setQuery(query);
+	const auto tokenHash = QString::fromLatin1(QCryptographicHash::hash(m_bearerToken.toUtf8(), QCryptographicHash::Sha1).toHex());
+	return url.toString(QUrl::FullyEncoded) + QStringLiteral("#") + tokenHash;
 }

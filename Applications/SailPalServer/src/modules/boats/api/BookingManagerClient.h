@@ -41,6 +41,7 @@ class BookingManagerClient {
 
 	private:
 		Response get(const QString& path, const QUrlQuery& query) const;
+		QString cacheKey(const QString& path, const QUrlQuery& query) const;
 
 	private:
 		QString m_baseUrl;
