@@ -16,7 +16,7 @@
 	"qt-qml.qmlls.enabled": true,
 
 	// CMake settings
-	"cmake.buildBeforeRun": true,
+	"cmake.buildBeforeRun": false,
 	"cmake.configureOnEdit": false,
 	"cmake.configureOnOpen": false,
 
