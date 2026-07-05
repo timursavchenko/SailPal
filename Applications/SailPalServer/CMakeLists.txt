@@ -9,6 +9,8 @@ set(SOURCES
 	src/modules/boats/api/BookingManagerClient.cpp
 	src/modules/boats/tasks/ApplyBoatsSettingsTask.cpp
 	src/modules/boats/tasks/BoatsTask.cpp
+	src/modules/boats/tasks/GetBoatOffersTask.cpp
+	src/modules/boats/tasks/GetBoatTask.cpp
 	src/modules/boats/tasks/GetBoatsTask.cpp
 	src/modules/boats/tasks/GetBoatsSettingsTask.cpp
 	src/modules/boats/tasks/ShowBoatsTask.cpp

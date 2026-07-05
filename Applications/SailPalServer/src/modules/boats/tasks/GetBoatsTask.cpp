@@ -92,6 +92,22 @@ namespace {
 		});
 	}
 
+	static QJsonObject offerSummaryToJson(const QJsonObject& offer) {
+		return QJsonObject({
+			{"yachtId", offer.value(QStringLiteral("yachtId")).toVariant().toString()},
+			{"yacht", offer.value(QStringLiteral("yacht")).toString()},
+			{"startBase", offer.value(QStringLiteral("startBase")).toString()},
+			{"endBase", offer.value(QStringLiteral("endBase")).toString()},
+			{"dateFrom", offer.value(QStringLiteral("dateFrom")).toString()},
+			{"dateTo", offer.value(QStringLiteral("dateTo")).toString()},
+			{"product", offer.value(QStringLiteral("product")).toString()},
+			{"price", offer.value(QStringLiteral("price")).toDouble()},
+			{"currency", offer.value(QStringLiteral("currency")).toString()},
+			{"startPrice", offer.value(QStringLiteral("startPrice")).toDouble()},
+			{"discountPercentage", offer.value(QStringLiteral("discountPercentage")).toDouble()}
+		});
+	}
+
 }
 
 GetBoatsTask::GetBoatsTask(const QJsonObject& request, Module& module)
@@ -99,7 +115,9 @@ GetBoatsTask::GetBoatsTask(const QJsonObject& request, Module& module)
 	,m_search(request.value(QStringLiteral("search")).toString())
 	,m_kind(request.value(QStringLiteral("kind")).toString())
 	,m_companyId(request.value(QStringLiteral("companyId")).toString(m_module.storage().bookingManagerSettings().companyId))
-	,m_currency(request.value(QStringLiteral("currency")).toString(m_module.storage().bookingManagerSettings().currency)) {
+	,m_currency(request.value(QStringLiteral("currency")).toString(m_module.storage().bookingManagerSettings().currency))
+	,m_dateFrom(request.value(QStringLiteral("dateFrom")).toString())
+	,m_dateTo(request.value(QStringLiteral("dateTo")).toString()) {
 }
 
 QJsonObject GetBoatsTask::process() {
@@ -120,20 +138,56 @@ QJsonObject GetBoatsTask::process() {
 		throw response.errorMessage;
 	}
 
+	QHash<QString, QJsonObject> offersByYachtId;
+	const bool datesApplied = !m_dateFrom.trimmed().isEmpty() && !m_dateTo.trimmed().isEmpty();
+	if(datesApplied) {
+		BookingManagerClient::OfferFilters offerFilters;
+		offerFilters.dateFrom = m_dateFrom;
+		offerFilters.dateTo = m_dateTo;
+		offerFilters.currency = m_currency;
+		offerFilters.companyId = m_companyId;
+		offerFilters.kind = m_kind;
+
+		const auto offersResponse = client.getOffers(offerFilters);
+		if(!offersResponse.ok) {
+			throw offersResponse.errorMessage;
+		}
+
+		for(const auto& offerValue : offersResponse.payload.toArray()) {
+			const auto offer = offerValue.toObject();
+			const auto yachtId = offer.value(QStringLiteral("yachtId")).toVariant().toString().trimmed();
+			if(yachtId.isEmpty() || offersByYachtId.contains(yachtId)) {
+				continue;
+			}
+			offersByYachtId.insert(yachtId, offerSummaryToJson(offer));
+		}
+	}
+
 	const auto yachts = response.payload.toArray();
 	QJsonArray items;
+	int offersMatchedCount = 0;
 	for(const auto& yachtValue : yachts) {
 		const auto yacht = yachtValue.toObject();
 		if(!yachtMatchesSearch(yacht, m_search)) {
 			continue;
 		}
-		items.append(yachtSummaryToJson(yacht));
+		auto yachtJson = yachtSummaryToJson(yacht);
+		const auto yachtId = yachtJson.value(QStringLiteral("id")).toString().trimmed();
+		if(offersByYachtId.contains(yachtId)) {
+			yachtJson.insert(QStringLiteral("offer"), offersByYachtId.value(yachtId));
+			++offersMatchedCount;
+		}
+		items.append(yachtJson);
 	}
 
 	return QJsonObject({
 		{"items", items},
 		{"count", items.size()},
 		{"currency", filters.currency},
-		{"language", filters.language}
+		{"language", filters.language},
+		{"dateFrom", m_dateFrom},
+		{"dateTo", m_dateTo},
+		{"datesApplied", datesApplied},
+		{"offersMatchedCount", offersMatchedCount}
 	});
 }

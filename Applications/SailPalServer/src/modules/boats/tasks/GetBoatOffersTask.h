@@ -2,21 +2,21 @@
 
 #include "BoatsTask.h"
 
-class GetBoatsTask : public BoatsTask {
+class GetBoatOffersTask : public BoatsTask {
 
 	Q_OBJECT
 
 	public:
-		GetBoatsTask(const QJsonObject& request, Module& module);
+		GetBoatOffersTask(const QJsonObject& request, Module& module);
 
 	protected:
 		virtual QJsonObject process() override;
 
 	private:
-		QString m_search;
-		QString m_kind;
+		QString m_boatId;
 		QString m_companyId;
 		QString m_currency;
+		QString m_kind;
 		QString m_dateFrom;
 		QString m_dateTo;
 };

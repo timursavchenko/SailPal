@@ -34,6 +34,33 @@ BookingManagerClient::Response BookingManagerClient::getYachts(const YachtFilter
 	return get(QStringLiteral("/yachts"), query);
 }
 
+BookingManagerClient::Response BookingManagerClient::getYacht(const QString& yachtId, const QString& language, const QString& currency) const {
+
+	const auto normalizedYachtId = yachtId.trimmed();
+	if(normalizedYachtId.isEmpty()) {
+		return Response{false, 0, QStringLiteral("Boat id is empty."), {}};
+	}
+
+	QUrlQuery query;
+	appendQueryItemIfNotEmpty(query, QStringLiteral("language"), language);
+	appendQueryItemIfNotEmpty(query, QStringLiteral("currency"), currency);
+
+	return get(QStringLiteral("/yacht/") + QUrl::toPercentEncoding(normalizedYachtId), query);
+}
+
+BookingManagerClient::Response BookingManagerClient::getOffers(const OfferFilters& filters) const {
+
+	QUrlQuery query;
+	appendQueryItemIfNotEmpty(query, QStringLiteral("dateFrom"), filters.dateFrom);
+	appendQueryItemIfNotEmpty(query, QStringLiteral("dateTo"), filters.dateTo);
+	appendQueryItemIfNotEmpty(query, QStringLiteral("currency"), filters.currency);
+	appendQueryItemIfNotEmpty(query, QStringLiteral("companyId"), filters.companyId);
+	appendQueryItemIfNotEmpty(query, QStringLiteral("yachtId"), filters.yachtId);
+	appendQueryItemIfNotEmpty(query, QStringLiteral("kind"), filters.kind);
+
+	return get(QStringLiteral("/offers"), query);
+}
+
 bool BookingManagerClient::requiresBearerToken(const QString& baseUrl) {
 
 	const QUrl url(normalizeBaseUrl(baseUrl));

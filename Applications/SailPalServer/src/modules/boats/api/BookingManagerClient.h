@@ -12,6 +12,15 @@ class BookingManagerClient {
 			QString kind;
 		};
 
+		struct OfferFilters {
+			QString dateFrom;
+			QString dateTo;
+			QString currency;
+			QString companyId;
+			QString yachtId;
+			QString kind;
+		};
+
 		struct Response {
 			bool ok = false;
 			int statusCode = 0;
@@ -24,6 +33,8 @@ class BookingManagerClient {
 
 	public:
 		Response getYachts(const YachtFilters& filters) const;
+		Response getYacht(const QString& yachtId, const QString& language, const QString& currency) const;
+		Response getOffers(const OfferFilters& filters) const;
 
 	public:
 		static bool requiresBearerToken(const QString& baseUrl);

@@ -1,6 +1,8 @@
 #include "BoatsModule.h"
 
 #include "tasks/ApplyBoatsSettingsTask.h"
+#include "tasks/GetBoatOffersTask.h"
+#include "tasks/GetBoatTask.h"
 #include "tasks/GetBoatsTask.h"
 #include "tasks/GetBoatsSettingsTask.h"
 #include "tasks/ShowBoatsTask.h"
@@ -24,6 +26,8 @@ void BoatsModule::initialize(const QVariantHash& params) {
 	registerTask<GetBoatsSettingsTask, ShowBoatsTask>();
 	registerTask<ApplyBoatsSettingsTask, ShowBoatsTask>();
 	registerTask<GetBoatsTask, ShowBoatsTask>();
+	registerTask<GetBoatTask, ShowBoatsTask>();
+	registerTask<GetBoatOffersTask, ShowBoatsTask>();
 
 	Module::initialize(params);
 }
