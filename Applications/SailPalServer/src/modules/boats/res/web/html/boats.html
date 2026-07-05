@@ -18,22 +18,169 @@
 		box-sizing: border-box;
 	}
 
+	.boatsFiltersPanel {
+		padding: 18px;
+		border-radius: 18px;
+		background:
+			linear-gradient(180deg, color-mix(in srgb, var(--panelColor) 92%, white 8%), var(--panelColor)),
+			radial-gradient(circle at top right, color-mix(in srgb, var(--primaryColor) 10%, transparent), transparent 42%);
+		box-shadow: 0 10px 30px color-mix(in srgb, black 8%, transparent);
+	}
+
+	.boatsFiltersHeader {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.boatsFiltersActions {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.boatsGhostButton {
+		background: color-mix(in srgb, var(--panelColor) 70%, var(--backgroundColor));
+		color: var(--onPanelColor);
+		border: 1px solid color-mix(in srgb, var(--onPanelColor) 14%, transparent);
+	}
+
+	.boatsGhostButton:hover:enabled {
+		opacity: 1;
+		background: color-mix(in srgb, var(--hoverColor) 22%, var(--panelColor));
+	}
+
+	.boatsIconButton {
+		width: 40px;
+		min-width: 40px;
+		padding: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.boatsToolbar {
 		display: grid;
-		grid-template-columns: minmax(220px, 1fr) 180px 130px 150px 150px auto;
-		gap: 10px;
+		grid-template-columns: minmax(0, 1fr) auto auto;
+		gap: 14px;
 		align-items: center;
 	}
 
+	.boatsSearchToolbarActions {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.boatsSecondaryFilters,
+	.boatsFiltersDialogGrid {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 14px;
+		align-items: end;
+	}
+
+	.boatsFiltersDialogGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.boatsFilterSection {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.boatsFilterSection + .boatsFilterSection {
+		padding-top: 4px;
+	}
+
+	.boatsFilterSectionTitle {
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, var(--onPanelColor) 58%, transparent);
+	}
+
+	.boatsFilterField {
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 7px;
+	}
+
+	.boatsFilterFieldLabel {
+		font-size: 12px;
+		font-weight: 700;
+		color: color-mix(in srgb, var(--onPanelColor) 78%, transparent);
+	}
+
+	.boatsFilterFieldHint {
+		font-size: 11px;
+		color: color-mix(in srgb, var(--onPanelColor) 54%, transparent);
+	}
+
+	.boatsFilterControl {
+		min-width: 0;
+	}
+
+	.boatsFilterField.boatsSearchField {
+		grid-column: span 1;
+	}
+
+	.boatsSearchField .boatsFilterFieldLabel {
+		display: none;
+	}
+
+	.boatsActiveFilters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		min-height: 0;
+		align-items: center;
+	}
+
+	.boatsActiveFilters:empty {
+		display: none;
+	}
+
+	.boatsFilterChip {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 7px 12px;
+		border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--onPanelColor) 10%, transparent);
+		background: color-mix(in srgb, var(--backgroundColor) 70%, var(--panelColor));
+		font-size: 12px;
+		font-weight: 600;
+		color: var(--onPanelColor);
+	}
+
+	.boatsFilterChipLabel {
+		color: color-mix(in srgb, var(--onPanelColor) 58%, transparent);
+	}
+
+	.boatsFilterChipMuted {
+		background: color-mix(in srgb, var(--panelColor) 74%, var(--backgroundColor));
+		color: color-mix(in srgb, var(--onPanelColor) 60%, transparent);
+		font-weight: 500;
+	}
+
 	.boatsToolbar .custom-select,
-	.boatsFilters .custom-select {
+	.boatsFiltersModalPanel .custom-select {
 		position: relative;
 		width: 100%;
 		min-width: 0;
 	}
 
 	.boatsToolbar input,
-	.boatsToolbar select {
+	.boatsToolbar select,
+	.boatsFiltersModalPanel input,
+	.boatsFiltersModalPanel select {
 		width: 100%;
 		height: 40px;
 		box-sizing: border-box;
@@ -56,38 +203,40 @@
 	}
 
 	.boatsToolbar input:focus,
-	.boatsFilters input:focus {
+	.boatsFiltersModalPanel input:focus,
+	.boatsToolbar select:focus,
+	.boatsFiltersModalPanel select:focus {
 		outline: none;
 		border-color: color-mix(in srgb, var(--primaryColor) 60%, white 10%);
 		box-shadow: 0 0 0 2px color-mix(in srgb, var(--primaryColor) 18%, transparent);
 	}
 
-	.boatsToolbar button {
+	.boatsToolbar button,
+	.boatsFiltersActions button,
+	.boatsSearchToolbarActions button,
+	.boatsModalActions button {
 		height: 40px;
 		padding: 0 16px;
 		white-space: nowrap;
 	}
 
-	.boatsFilters {
-		display: grid;
-		grid-template-columns: repeat(4, minmax(0, 1fr));
-		gap: 10px;
+	.boatsFiltersPanel > .boatsPanel,
+	.boatsFiltersPanel > .boatsToolbar,
+	.boatsFiltersPanel > .boatsSecondaryFilters,
+	.boatsFiltersPanel > .boatsActiveFilters,
+	.boatsFiltersPanel > .boatsFilterSection {
+		margin: 0;
 	}
 
-	.boatsFilters > button {
+	.boatsFiltersActions > button {
 		width: 100%;
 		height: 40px;
 		box-sizing: border-box;
-		border: 1px solid color-mix(in srgb, var(--onPanelColor) 16%, transparent);
-		border-radius: 6px;
-		padding: 0 12px;
-		background: color-mix(in srgb, var(--panelColor) 80%, var(--backgroundColor));
-		color: var(--onPanelColor);
 	}
 
 
 	.boatsToolbar .custom-select .select-selected,
-	.boatsFilters .custom-select .select-selected {
+	.boatsFiltersModalPanel .custom-select .select-selected {
 		display: flex;
 		align-items: center;
 		width: 100%;
@@ -98,26 +247,26 @@
 	}
 
 	.boatsToolbar .custom-select .select-selected:after,
-	.boatsFilters .custom-select .select-selected:after {
+	.boatsFiltersModalPanel .custom-select .select-selected:after {
 		top: 50%;
 		transform: translateY(-20%);
 	}
 
 	.boatsToolbar .custom-select .select-selected.select-arrow-active:after,
-	.boatsFilters .custom-select .select-selected.select-arrow-active:after {
+	.boatsFiltersModalPanel .custom-select .select-selected.select-arrow-active:after {
 		top: 50%;
 		transform: translateY(-80%);
 	}
 
 	.boatsToolbar .custom-select .select-items,
-	.boatsFilters .custom-select .select-items {
+	.boatsFiltersModalPanel .custom-select .select-items {
 		z-index: 30;
 		max-height: 280px;
 		overflow-y: auto;
 	}
 
 	.boatsToolbar .custom-select .select-items div,
-	.boatsFilters .custom-select .select-items div {
+	.boatsFiltersModalPanel .custom-select .select-items div {
 		padding-top: 10px;
 		padding-bottom: 10px;
 	}
@@ -283,6 +432,10 @@
 		box-shadow: 0 18px 48px rgba(0, 0, 0, .28);
 	}
 
+	.boatsFiltersModalPanel {
+		width: min(920px, 100%);
+	}
+
 	.boatDetailsHeader {
 		display: flex;
 		align-items: flex-start;
@@ -300,6 +453,14 @@
 		min-width: 36px;
 		height: 36px;
 		padding: 0;
+	}
+
+	.boatsModalActions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+		flex-wrap: wrap;
+		padding-top: 4px;
 	}
 
 	.boatDetailsGrid {
@@ -393,12 +554,36 @@
 			padding: 12px;
 		}
 
+		.boatsFiltersHeader {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.boatsFiltersActions {
+			width: 100%;
+		}
+
+		.boatsFiltersActions > button {
+			flex: 1 1 0;
+		}
+
+		.boatsToolbar,
+		.boatsSecondaryFilters,
+		.boatsFiltersDialogGrid {
+			grid-template-columns: 1fr;
+		}
+
+		.boatsSearchToolbarActions {
+			justify-content: stretch;
+		}
+
 		.boatsToolbar {
 			grid-template-columns: 1fr;
 		}
 
-		.boatsFilters {
-			grid-template-columns: 1fr;
+		.boatsSearchToolbarActions > button,
+		.boatsModalActions > button {
+			flex: 1 1 100%;
 		}
 
 		.boatDetailsGrid {
@@ -412,79 +597,161 @@
 </style>
 
 <div class="boatsLayout" id="boatsLayout">
-	<div class="boatsPanel boatsToolbar">
-		<input id="boatsSearchInput" type="text">
-		<div id="boatsKindCombo" class="custom-select">
-			<select id="boatsKindSelect">
-				<option value=""></option>
-				<option value="sailboat"></option>
-				<option value="catamaran"></option>
-				<option value="motorboat"></option>
-				<option value="motoryacht"></option>
-				<option value="gulet"></option>
-			</select>
-		</div>
-		<div id="boatsCurrencyCombo" class="custom-select">
-			<select id="boatsCurrencySelect">
-				<option value=""></option>
-				<option value="EUR">EUR</option>
-				<option value="USD">USD</option>
-				<option value="GBP">GBP</option>
-			</select>
-		</div>
-		<input id="boatsDateFromInput" type="date">
-		<input id="boatsDateToInput" type="date">
-		<button id="boatsRefreshButton">$tr{Refresh}</button>
-	</div>
+	<div class="boatsPanel boatsFiltersPanel">
+		<div id="boatsActiveFilters" class="boatsActiveFilters"></div>
 
-	<div class="boatsPanel boatsFilters">
-		<div id="boatsCompanyCombo" class="custom-select"><select id="boatsCompanySelect"><option value=""></option></select></div>
-		<div id="boatsBaseCombo" class="custom-select"><select id="boatsBaseSelect"><option value=""></option></select></div>
-		<div class="custom-spinbox">
-			<input id="boatsMinCabinsInput" type="number" min="0" step="1">
-			<div class="custom-spinbox-buttons">
-				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinCabinsInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
-				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinCabinsInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
+		<div class="boatsToolbar">
+			<div class="boatsFilterField boatsSearchField">
+				<div class="boatsFilterFieldLabel">$tr{Search}</div>
+				<div class="boatsFilterControl"><input id="boatsSearchInput" type="text"></div>
+			</div>
+			<div class="boatsSearchToolbarActions">
+				<button id="boatsOpenFiltersButton" class="boatsGhostButton boatsIconButton" type="button"><i class="fa-solid fa-sliders"></i></button>
+			</div>
+			<div class="boatsFiltersActions">
+				<button id="boatsRefreshButton" type="button">$tr{Refresh}</button>
 			</div>
 		</div>
-		<div class="custom-spinbox">
-			<input id="boatsMinBerthsInput" type="number" min="0" step="1">
-			<div class="custom-spinbox-buttons">
-				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinBerthsInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
-				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinBerthsInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
-			</div>
-		</div>
-		<div class="custom-spinbox">
-			<input id="boatsMinLengthInput" type="number" min="0" step="0.1">
-			<div class="custom-spinbox-buttons">
-				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinLengthInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
-				<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinLengthInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
-			</div>
-		</div>
-		<div id="boatsSortByCombo" class="custom-select">
-			<select id="boatsSortBySelect">
-				<option value=""></option>
-				<option value="name"></option>
-				<option value="availability"></option>
-				<option value="price"></option>
-				<option value="year"></option>
-				<option value="length"></option>
-				<option value="cabins"></option>
-				<option value="berths"></option>
-			</select>
-		</div>
-		<div id="boatsSortDirectionCombo" class="custom-select">
-			<select id="boatsSortDirectionSelect">
-				<option value=""></option>
-				<option value="asc"></option>
-				<option value="desc"></option>
-			</select>
-		</div>
-		<button id="boatsClearFiltersButton" type="button">$tr{Clear filters}</button>
 	</div>
 
 	<div id="boatsStatus" class="boatsStatus"></div>
 	<div id="boatsList" class="boatsList" aria-live="polite"></div>
+	<div id="boatsFiltersModal" class="boatsModal boatsHidden" role="dialog" aria-modal="true">
+		<div class="boatsModalBackdrop" id="boatsFiltersBackdrop"></div>
+		<section class="boatsPanel boatDetailsPanel boatsFiltersModalPanel">
+			<div class="boatDetailsHeader">
+				<div>
+					<div class="boatDetailsTitle">$tr{Filters}</div>
+					<div class="boatSubtitle">$tr{Combine dates, capacity and sorting to narrow the fleet.}</div>
+				</div>
+				<button id="boatsFiltersCloseButton" class="boatDetailsClose" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+			</div>
+			<div class="boatsFilterSection">
+				<div class="boatsFilterSectionTitle">$tr{Primary filters}</div>
+				<div class="boatsFiltersDialogGrid">
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Boat type}</div>
+						<div class="boatsFilterControl">
+							<div id="boatsKindCombo" class="custom-select">
+								<select id="boatsKindSelect">
+									<option value=""></option>
+									<option value="sailboat"></option>
+									<option value="catamaran"></option>
+									<option value="motorboat"></option>
+									<option value="motoryacht"></option>
+									<option value="gulet"></option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Currency}</div>
+						<div class="boatsFilterControl">
+							<div id="boatsCurrencyCombo" class="custom-select">
+								<select id="boatsCurrencySelect">
+									<option value=""></option>
+									<option value="EUR">EUR</option>
+									<option value="USD">USD</option>
+									<option value="GBP">GBP</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Date from}</div>
+						<div class="boatsFilterControl"><input id="boatsDateFromInput" type="date"></div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Date to}</div>
+						<div class="boatsFilterControl"><input id="boatsDateToInput" type="date"></div>
+					</div>
+				</div>
+			</div>
+			<div class="boatsFilterSection">
+				<div class="boatsFilterSectionTitle">$tr{More filters}</div>
+				<div class="boatsFiltersDialogGrid">
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Company}</div>
+						<div class="boatsFilterControl"><div id="boatsCompanyCombo" class="custom-select"><select id="boatsCompanySelect"><option value=""></option></select></div></div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Base}</div>
+						<div class="boatsFilterControl"><div id="boatsBaseCombo" class="custom-select"><select id="boatsBaseSelect"><option value=""></option></select></div></div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Min cabins}</div>
+						<div class="boatsFilterControl">
+							<div class="custom-spinbox">
+								<input id="boatsMinCabinsInput" type="number" min="0" step="1">
+								<div class="custom-spinbox-buttons">
+									<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinCabinsInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
+									<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinCabinsInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Min berths}</div>
+						<div class="boatsFilterControl">
+							<div class="custom-spinbox">
+								<input id="boatsMinBerthsInput" type="number" min="0" step="1">
+								<div class="custom-spinbox-buttons">
+									<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinBerthsInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
+									<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinBerthsInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Min length}</div>
+						<div class="boatsFilterControl">
+							<div class="custom-spinbox">
+								<input id="boatsMinLengthInput" type="number" min="0" step="0.1">
+								<div class="custom-spinbox-buttons">
+									<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinLengthInput" data-spinbox-direction="up"><i class="fa-solid fa-chevron-up"></i></button>
+									<button class="custom-spinbox-button" type="button" data-spinbox-target="boatsMinLengthInput" data-spinbox-direction="down"><i class="fa-solid fa-chevron-down"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Sort by}</div>
+						<div class="boatsFilterControl">
+							<div id="boatsSortByCombo" class="custom-select">
+								<select id="boatsSortBySelect">
+									<option value=""></option>
+									<option value="name"></option>
+									<option value="availability"></option>
+									<option value="price"></option>
+									<option value="year"></option>
+									<option value="length"></option>
+									<option value="cabins"></option>
+									<option value="berths"></option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="boatsFilterField">
+						<div class="boatsFilterFieldLabel">$tr{Sort direction}</div>
+						<div class="boatsFilterControl">
+							<div id="boatsSortDirectionCombo" class="custom-select">
+								<select id="boatsSortDirectionSelect">
+									<option value=""></option>
+									<option value="asc"></option>
+									<option value="desc"></option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="boatsModalActions">
+				<button id="boatsModalCloseFiltersButton" class="boatsGhostButton" type="button">$tr{Close}</button>
+				<button id="boatsModalClearFiltersButton" class="boatsGhostButton" type="button">$tr{Clear filters}</button>
+				<button id="boatsModalApplyFiltersButton" type="button">$tr{Apply filters}</button>
+			</div>
+		</section>
+	</div>
 	<div id="boatsDetailsModal" class="boatsModal boatsHidden" role="dialog" aria-modal="true">
 		<div class="boatsModalBackdrop" id="boatsDetailsBackdrop"></div>
 		<section class="boatsPanel boatDetailsPanel">
@@ -521,10 +788,17 @@
 	var minLengthInput = document.getElementById("boatsMinLengthInput");
 	var sortBySelect = document.getElementById("boatsSortBySelect");
 	var sortDirectionSelect = document.getElementById("boatsSortDirectionSelect");
-	var clearFiltersButton = document.getElementById("boatsClearFiltersButton");
+	var openFiltersButton = document.getElementById("boatsOpenFiltersButton");
 	var refreshButton = document.getElementById("boatsRefreshButton");
 	var statusElement = document.getElementById("boatsStatus");
+	var activeFiltersElement = document.getElementById("boatsActiveFilters");
 	var listElement = document.getElementById("boatsList");
+	var filtersModal = document.getElementById("boatsFiltersModal");
+	var filtersBackdrop = document.getElementById("boatsFiltersBackdrop");
+	var filtersCloseButton = document.getElementById("boatsFiltersCloseButton");
+	var modalCloseFiltersButton = document.getElementById("boatsModalCloseFiltersButton");
+	var modalClearFiltersButton = document.getElementById("boatsModalClearFiltersButton");
+	var modalApplyFiltersButton = document.getElementById("boatsModalApplyFiltersButton");
 	var detailsModal = document.getElementById("boatsDetailsModal");
 	var detailsBackdrop = document.getElementById("boatsDetailsBackdrop");
 	var detailsCloseButton = document.getElementById("boatsDetailsCloseButton");
@@ -536,6 +810,7 @@
 	var currentBoatDetails = null;
 	var currentBoatOffers = null;
 	var currentBoatImageIndex = 0;
+	var filtersSnapshot = null;
 	var customComboIds = [
 		"boatsKindCombo",
 		"boatsCurrencyCombo",
@@ -545,6 +820,7 @@
 		"boatsSortDirectionCombo"
 	];
 	var TEXT_SEARCH_BOATS = "$tr{Search boats}";
+	var TEXT_SEARCH = "$tr{Search}";
 	var TEXT_BOAT_TYPE = "$tr{Boat type}";
 	var TEXT_ALL_BOAT_TYPES = "$tr{All boat types}";
 	var TEXT_SAILBOAT = "$tr{Sailboat}";
@@ -553,6 +829,11 @@
 	var TEXT_MOTOR_YACHT = "$tr{Motor yacht}";
 	var TEXT_GULET = "$tr{Gulet}";
 	var TEXT_CURRENCY = "$tr{Currency}";
+	var TEXT_FILTERS = "$tr{Filters}";
+	var TEXT_APPLY_FILTERS = "$tr{Apply filters}";
+	var TEXT_NO_FILTERS_APPLIED = "$tr{No filters applied}";
+	var TEXT_DATES = "$tr{Dates}";
+	var TEXT_SORT = "$tr{Sort}";
 	var TEXT_EMPTY_RESPONSE = "$tr{Empty response.}";
 	var TEXT_FAILED_TO_LOAD_BOATS = "$tr{Failed to load boats}";
 	var TEXT_BOAT_IMAGE = "$tr{Boat image}";
@@ -631,6 +912,8 @@
 		currencySelect.value = currencySelect.value || "EUR";
 		sortBySelect.value = sortBySelect.value || "name";
 		sortDirectionSelect.value = sortDirectionSelect.value || "asc";
+		openFiltersButton.setAttribute("aria-label", TEXT_FILTERS);
+		openFiltersButton.setAttribute("title", TEXT_FILTERS);
 		kindSelect.setAttribute("aria-label", TEXT_BOAT_TYPE);
 		currencySelect.setAttribute("aria-label", TEXT_CURRENCY);
 		dateFromInput.setAttribute("aria-label", TEXT_DATES_FROM);
@@ -758,6 +1041,144 @@
 		return normalizedUrl === "" || normalizedUrl.indexOf("/image123") !== -1;
 	}
 
+	function selectedOptionText(selectElement) {
+		if(!selectElement || selectElement.selectedIndex < 0) {
+			return "";
+		}
+		var option = selectElement.options[selectElement.selectedIndex];
+		if(!option || !option.value) {
+			return "";
+		}
+		return option.textContent || option.value;
+	}
+
+	function renderActiveFilters() {
+		var chips = [];
+		var searchValue = String(searchInput.value || "").trim();
+		if(searchValue) {
+			chips.push({ label: TEXT_SEARCH, value: searchValue });
+		}
+
+		var kindValue = selectedOptionText(kindSelect);
+		if(kindValue) {
+			chips.push({ label: TEXT_BOAT_TYPE, value: kindValue });
+		}
+
+		if(currencySelect.value && currencySelect.value !== "EUR") {
+			chips.push({ label: TEXT_CURRENCY, value: currencySelect.value });
+		}
+
+		if(dateFromInput.value || dateToInput.value) {
+			chips.push({ label: TEXT_DATES, value: [dateFromInput.value, dateToInput.value].filter(Boolean).join(" - ") });
+		}
+
+		var companyValue = selectedOptionText(companySelect);
+		if(companyValue) {
+			chips.push({ label: TEXT_COMPANY, value: companyValue });
+		}
+
+		var baseValue = selectedOptionText(baseSelect);
+		if(baseValue) {
+			chips.push({ label: TEXT_BASE, value: baseValue });
+		}
+
+		if(Number(minCabinsInput.value || 0) > 0) {
+			chips.push({ label: TEXT_MIN_CABINS, value: String(minCabinsInput.value) });
+		}
+
+		if(Number(minBerthsInput.value || 0) > 0) {
+			chips.push({ label: TEXT_MIN_BERTHS, value: String(minBerthsInput.value) });
+		}
+
+		if(Number(minLengthInput.value || 0) > 0) {
+			chips.push({ label: TEXT_MIN_LENGTH, value: String(minLengthInput.value) + " m" });
+		}
+
+		if((sortBySelect.value || "name") !== "name" || (sortDirectionSelect.value || "asc") !== "asc") {
+			chips.push({
+				label: TEXT_SORT,
+				value: [selectedOptionText(sortBySelect), selectedOptionText(sortDirectionSelect)].filter(Boolean).join(" • ")
+			});
+		}
+
+		if(!chips.length) {
+			activeFiltersElement.innerHTML = "";
+			return;
+		}
+
+		activeFiltersElement.innerHTML = chips.map(function(chip) {
+			return "<span class=\"boatsFilterChip\"><span class=\"boatsFilterChipLabel\">" + escapeHtml(chip.label) + "</span><span>" + escapeHtml(chip.value) + "</span></span>";
+		}).join("");
+	}
+
+	function getFiltersState() {
+		return {
+			kind: kindSelect.value || "",
+			currency: currencySelect.value || "EUR",
+			dateFrom: dateFromInput.value || "",
+			dateTo: dateToInput.value || "",
+			company: companySelect.value || "",
+			base: baseSelect.value || "",
+			minCabins: minCabinsInput.value || "",
+			minBerths: minBerthsInput.value || "",
+			minLength: minLengthInput.value || "",
+			sortBy: sortBySelect.value || "name",
+			sortDirection: sortDirectionSelect.value || "asc"
+		};
+	}
+
+	function setFiltersState(state) {
+		var normalizedState = state || {};
+		kindSelect.value = normalizedState.kind || "";
+		currencySelect.value = normalizedState.currency || "EUR";
+		dateFromInput.value = normalizedState.dateFrom || "";
+		dateToInput.value = normalizedState.dateTo || "";
+		companySelect.value = normalizedState.company || "";
+		baseSelect.value = normalizedState.base || "";
+		minCabinsInput.value = normalizedState.minCabins || "";
+		minBerthsInput.value = normalizedState.minBerths || "";
+		minLengthInput.value = normalizedState.minLength || "";
+		sortBySelect.value = normalizedState.sortBy || "name";
+		sortDirectionSelect.value = normalizedState.sortDirection || "asc";
+		refreshCustomComboboxes();
+	}
+
+	function resetFiltersState() {
+		setFiltersState({
+			kind: "",
+			currency: "EUR",
+			dateFrom: "",
+			dateTo: "",
+			company: "",
+			base: "",
+			minCabins: "",
+			minBerths: "",
+			minLength: "",
+			sortBy: "name",
+			sortDirection: "asc"
+		});
+	}
+
+	function openFiltersModal() {
+		filtersSnapshot = getFiltersState();
+		filtersModal.classList.remove("boatsHidden");
+		refreshCustomComboboxes();
+	}
+
+	function closeFiltersModal(applyChanges) {
+		if(applyChanges === true) {
+			filtersSnapshot = getFiltersState();
+			filtersModal.classList.add("boatsHidden");
+			loadBoats();
+			return;
+		}
+
+		if(filtersSnapshot) {
+			setFiltersState(filtersSnapshot);
+		}
+		filtersModal.classList.add("boatsHidden");
+	}
+
 	function setSelectOptions(selectElement, values, emptyLabel) {
 		var currentValue = selectElement.value || "";
 		var normalizedValues = Array.isArray(values) ? values.filter(Boolean) : [];
@@ -831,6 +1252,7 @@
 	}
 
 	function renderBoats(items, response) {
+		renderActiveFilters();
 		setSelectOptions(companySelect, response && response.availableCompanies, TEXT_ALL_COMPANIES);
 		setSelectOptions(baseSelect, response && response.availableBases, TEXT_ALL_BASES);
 
@@ -991,6 +1413,7 @@
 	}
 
 	function loadBoats() {
+		renderActiveFilters();
 		refreshButton.disabled = true;
 		setStatus(TEXT_LOADING_BOATS + "...", false);
 
@@ -1029,16 +1452,8 @@
 		searchTimer = window.setTimeout(loadBoats, 250);
 	}
 
-	function clearFilters() {
-		companySelect.value = "";
-		baseSelect.value = "";
-		minCabinsInput.value = "";
-		minBerthsInput.value = "";
-		minLengthInput.value = "";
-		sortBySelect.value = "name";
-		sortDirectionSelect.value = "asc";
-		refreshCustomComboboxes();
-		loadBoats();
+	function clearFiltersDraft() {
+		resetFiltersState();
 	}
 
 	function stepSpinbox(input, direction) {
@@ -1060,19 +1475,13 @@
 		input.dispatchEvent(new Event("change", { bubbles: true }));
 	}
 
+	openFiltersButton.addEventListener("click", openFiltersModal);
 	refreshButton.addEventListener("click", loadBoats);
-	kindSelect.addEventListener("change", loadBoats);
-	currencySelect.addEventListener("change", loadBoats);
-	dateFromInput.addEventListener("change", loadBoats);
-	dateToInput.addEventListener("change", loadBoats);
-	companySelect.addEventListener("change", loadBoats);
-	baseSelect.addEventListener("change", loadBoats);
-	minCabinsInput.addEventListener("input", scheduleLoadBoats);
-	minBerthsInput.addEventListener("input", scheduleLoadBoats);
-	minLengthInput.addEventListener("input", scheduleLoadBoats);
-	sortBySelect.addEventListener("change", loadBoats);
-	sortDirectionSelect.addEventListener("change", loadBoats);
-	clearFiltersButton.addEventListener("click", clearFilters);
+	filtersBackdrop.addEventListener("click", function() { closeFiltersModal(false); });
+	filtersCloseButton.addEventListener("click", function() { closeFiltersModal(false); });
+	modalCloseFiltersButton.addEventListener("click", function() { closeFiltersModal(false); });
+	modalClearFiltersButton.addEventListener("click", clearFiltersDraft);
+	modalApplyFiltersButton.addEventListener("click", function() { closeFiltersModal(true); });
 	searchInput.addEventListener("input", scheduleLoadBoats);
 	document.querySelectorAll(".custom-spinbox-button").forEach(function(button) {
 		button.addEventListener("click", function() {
@@ -1108,6 +1517,10 @@
 		}
 	});
 	document.addEventListener("keydown", function(event) {
+		if(event.key === "Escape" && !filtersModal.classList.contains("boatsHidden")) {
+			closeFiltersModal(false);
+			return;
+		}
 		if(event.key === "Escape") {
 			closeDetails();
 		}
